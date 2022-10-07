@@ -268,15 +268,8 @@ int main(int argc,char* argv[])
 	
 	Image image(filename);
 
-    // image.median(image.data);
-    // cout << x.serialize();
-    // image.median((image.getSubMatrix(0,2,3)));
-    // image.saltAndPepper(2);
-    // image.getSubMatrix(0,0,3);
-    // cout << image.data.serialize() << "\n";
     image.saltAndPepper(3);
     cout << "\n" << "\n";
-    // cout << image.data.serialize() << "\n";
     image.saveImage("teste2.PGM");
 
 	
