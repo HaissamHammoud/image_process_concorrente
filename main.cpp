@@ -69,14 +69,14 @@ class Image{
                         && y < this->y_size 
                         && x < this->x_size
                     ){
-                        cout<<"here";
+                        // cout<<"here";
                         substring = (mytext.substr(begin_position, (end_position-begin_position)));
                         actual_pixel = atoi( substring.c_str() );
                         // cout << "X: " << x << "y: " << y << "\n";
                         this->data.at(x,y) = actual_pixel;
-                        cout << actual_pixel;
+                        // cout << actual_pixel;
                         begin_position = end_position+1;
-                        cout << "\n";
+                        // cout << "\n";
                         y++;
                     }
                 }
@@ -106,9 +106,9 @@ class Image{
                         str.append(" ");
                     }
                     // str.append("\n");
-                    cout << str << "\n";
+                    // cout << str << "\n";
                     myfile<<str<< endl;
-                    cout << "j " << i;
+                    // cout << "j " << i;
                     // return;
                 }
                 myfile.close();
@@ -122,7 +122,7 @@ class Image{
             int numCols = data.get_num_cols();
             int numRows = data.get_num_rows();
             int n_cores = (int)(thread::hardware_concurrency() );
-            n_cores = 3;
+            // n_cores = 1;
             int        rc; 
             // pthread_t threads[n_cores];
             // struct arg_struct *args[2];
@@ -130,18 +130,18 @@ class Image{
             args.reserve(n_cores);
             vector<thread> t1;
             int numberOfRows = (int)(numRows / n_cores);
-            cout << "number of threads: "<< n_cores;
-            cout << "number of rows: " <<numberOfRows <<"\n";
+            // cout << "number of threads: "<< n_cores;
+            // cout << "number of rows: " <<numberOfRows <<"\n";
             for(int  i = 0; i < n_cores; i++){
                 args[i].arg1 = i * numberOfRows;
                 if ((i*numberOfRows + numberOfRows) > numberOfRows){
-                    args[i].arg2 = numberOfRows-1;
+                    args[i].arg2 = numberOfRows*i-1;
                 }
                 else{
-                    args[i].arg2 = i*numberOfRows + numberOfRows ;
+                    args[i].arg2 = i + numberOfRows *n_cores;
                 }
                 // rc = pthread_create( &threads[i], NULL, (THREADFUNCPTR)&Image::saltAndPepperAsync,(void*)&args[i]);
-                cout << "fora: " << this->data.at(1,1)<< "\n";
+                // cout << "fora: " << this->data.at(1,1)<< "\n";
                 some_threads_2.push_back(thread(&Image::saltAndPepperAsync,this, args[i]));
             }
 
@@ -182,11 +182,11 @@ class Image{
 
         Matrix<int> getSubMatrix(int x, int y, int matrixSize){
             Matrix<int> newMatrix;
-            cout << "geting submatrix";
+            // cout << "geting submatrix";
             newMatrix.set_size(matrixSize, matrixSize);
             int xStartPoint = x - (int)(matrixSize  / 2 );
             int yStartPoint = y - (int)(matrixSize / 2 );
-            cout << "xStartPoint value: " << xStartPoint;
+            // cout << "xStartPoint value: " << xStartPoint;
             int r; 
 
             for( int i = 0 ; i < matrixSize ; i++){
@@ -194,11 +194,11 @@ class Image{
                     if(
                         (xStartPoint + i < 0 || yStartPoint +j < 0) || 
                         (
-                        i - xStartPoint >this->data.get_num_cols() || 
-                        j - yStartPoint >= this->data.get_num_rows()
+                        i - xStartPoint >=this->data.get_num_rows() || 
+                        j - yStartPoint >= this->data.get_num_cols()
                         )||
                         (
-                        i + xStartPoint >= this->data.get_num_cols() || 
+                        i + xStartPoint >= this->data.get_num_rows() || 
                         j + yStartPoint >= this->data.get_num_cols()
                         )
                     ){
@@ -209,13 +209,13 @@ class Image{
                         // cout << "x point: "<< xStartPoint << "\n";
                         // cout << "y point: "<< yStartPoint << "\n";
                         newMatrix.at(i,j) = this->data.at(xStartPoint+i,yStartPoint+j);
-                        cout <<"aaa"<< this->data.at(xStartPoint+i,yStartPoint+j);
-                        cout<<"done;";
+                        // cout <<"aaa"<< this->data.at(xStartPoint+i,yStartPoint+j);
+                        // cout<<"done;";
                     }
                 }
             }
-            cout << "\n";
-            cout << newMatrix.serialize();
+            // cout << "\n";
+            // cout << newMatrix.serialize();
             return newMatrix;
         }
     
@@ -235,9 +235,9 @@ class Image{
                 int numRows = this->data.get_num_rows();
                 for (int i = x; i < xf; i++ ){
                     for ( int j = 0; j < numCols; j++){
-                        cout << "medianvaluew: "<< this->median(getSubMatrix(i,j,3));
+                        // cout << "medianvaluew: "<< this->median(getSubMatrix(i,j,3));
 
-                        cout << getSubMatrix(i,j,3).serialize();
+                        // cout << getSubMatrix(i,j,3).serialize();
                         this->data.at(i,j) = this->median(getSubMatrix(i,j,3));
                     }
                 }
