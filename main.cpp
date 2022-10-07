@@ -248,8 +248,9 @@ class Image{
 
 
 
-int main()
+int main(int argc,char* argv[])
 {
+    string filename = argv[1];
 	auto x = Matrix<int>(9, 9);
 	auto y = Matrix<int>(10, 10);
 	
@@ -265,7 +266,7 @@ int main()
 		}
 	}
 	
-	Image image("ginimo.PGM");
+	Image image(filename);
 
     // image.median(image.data);
     // cout << x.serialize();
